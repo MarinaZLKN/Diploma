@@ -6,6 +6,9 @@ from .serializers import *
 from .models import *
 
 
+def main(request):
+    return render(request, 'base.html')
+
 class ServiceCompanyViewset(viewsets.ModelViewSet):
     queryset = ServiceCompany.objects.all()
     serializer_class = ServiceCompanySerializer

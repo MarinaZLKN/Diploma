@@ -22,5 +22,6 @@ router.register(r'failure_nodes', FailureNodeViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('backend.urls')),
     path('api/', include(router.urls)),
 ]
