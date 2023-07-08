@@ -19,9 +19,11 @@ router.register(r'complaints', ComplaintsViewset)
 router.register(r'clients', ClientViewset)
 router.register(r'organizations', OrganizationViewset)
 router.register(r'failure_nodes', FailureNodeViewset)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('backend.urls')),
     path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
 ]

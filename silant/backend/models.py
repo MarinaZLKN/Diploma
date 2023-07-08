@@ -153,6 +153,5 @@ class Claim(models.Model):
     # по сути, дата восстановления - дата отказа
     def downtime(self):
         self.technical_downtime = (self.date_of_recovery - self.date_of_failure).days
-        print(self.technical_downtime)
         self.save()
 

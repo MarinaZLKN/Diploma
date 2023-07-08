@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import *
 
 admin.site.register(Machine)
@@ -15,4 +16,5 @@ admin.site.register(FailureNode)
 admin.site.register(Claim)
 admin.site.register(Client)
 admin.site.register(ServiceCompany)
+
 

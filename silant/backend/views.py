@@ -1,13 +1,20 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
+from django.contrib.auth.models import User
 from rest_framework import filters
 import django_filters
+
 from .serializers import *
 from .models import *
 
 
 def main(request):
     return render(request, 'base.html')
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 class ServiceCompanyViewset(viewsets.ModelViewSet):
     queryset = ServiceCompany.objects.all()
