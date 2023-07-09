@@ -85,7 +85,7 @@ class MaintenanceViewset(viewsets.ModelViewSet):
     ordering = ['-date_of_maintenance']
 
 
-class ComplaintsViewset(viewsets.ModelViewSet):
+class ClaimViewset(viewsets.ModelViewSet):
     queryset = Claim.objects.all()
     serializer_class = ClaimSerializer
     ordering_fields = ['-date_of_failure']

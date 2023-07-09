@@ -15,7 +15,7 @@ router.register(r'types_of_maintenance', TypeOfMaintenanceViewset)
 router.register(r'recovery_methods', RecoveryMethodViewset)
 router.register(r'machines', MachineViewset)
 router.register(r'maintenances', MaintenanceViewset)
-router.register(r'complaints', ComplaintsViewset)
+router.register(r'claim', ClaimViewset)
 router.register(r'clients', ClientViewset)
 router.register(r'organizations', OrganizationViewset)
 router.register(r'failure_nodes', FailureNodeViewset)
@@ -26,4 +26,5 @@ urlpatterns = [
     path('', include('backend.urls')),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
