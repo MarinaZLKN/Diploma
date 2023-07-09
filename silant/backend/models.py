@@ -1,4 +1,45 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+
+User = get_user_model()
+
+def get_default_user():
+    return User.objects.first()
+class CustomUser(AbstractUser):
+    ROLES = (
+        ('guest', 'Гость'),
+        ('client', 'Клиент'),
+        ('service_company', 'Сервисная организация'),
+        ('manager', 'Менеджер'),
+    )
+    role = models.CharField(max_length=15, choices=ROLES)
+    groups = models.ManyToManyField(Group, blank=True, related_name='custom_users')
+    user_permissions = models.ManyToManyField(Permission, blank=True, related_name='custom_users')
+
+
+class Guest(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+
+
+class Client(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class ServiceCompany(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, default="ООО ФНС")
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Manager(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
 
 # Техническая модель
@@ -89,20 +130,11 @@ class FailureNode(models.Model):
         return self.name
 
 
-# Сервисная компания
-class ServiceCompany(models.Model):
-    name = models.CharField(max_length=64)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
-
-
 # Машина
 class Machine(models.Model):
-    machine_factory_number = models.CharField(max_length=4)
-    engine_factory_number = models.CharField(max_length=100)
-    transmission_factory_number = models.CharField(max_length=100)
+    machine_factory_number = models.CharField(max_length=4)  # заводской номер машины
+    engine_factory_number = models.CharField(max_length=100)  # заводской номер двигателя
+    transmission_factory_number = models.CharField(max_length=100)  # заводской номер трансмиссии
     driving_bridge_factory_number = models.CharField(max_length=100)  # Зав. номер ведущего моста
     controlled_bridge_factory_number = models.CharField(max_length=100)  # Зав. номер управляемого моста
     delivery_contract = models.CharField(max_length=100)  # Договор поставки номера, дата
@@ -111,7 +143,7 @@ class Machine(models.Model):
     delivery_address = models.CharField(max_length=100)
     equipment = models.CharField(max_length=100)  # комплектация
 
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)  # покупатель
     service_company = models.ForeignKey(ServiceCompany, on_delete=models.CASCADE)
     engine_model = models.ForeignKey(EngineModel, on_delete=models.CASCADE)
     technical_model = models.ForeignKey(TechnicalModel, on_delete=models.CASCADE)

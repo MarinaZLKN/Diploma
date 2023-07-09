@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-
+from django.conf.urls.static import static
 from backend.views import *
+from django.conf import settings
 
 router = routers.DefaultRouter()
 router.register(r'service_companies', ServiceCompanyViewset)
-router.register(r'technic_models', TechnicalModelViewset)
+router.register(r'technical_models', TechnicalModelViewset)
 router.register(r'transmission_models', TransmissionModelViewset)
 router.register(r'engine_models', EngineModelViewset)
 router.register(r'driving_bridge_models', DrivingBridgeModelViewset)
@@ -27,4 +28,4 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
